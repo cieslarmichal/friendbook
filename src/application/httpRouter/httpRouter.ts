@@ -1,21 +1,30 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import { NormalizeUrlPayload, normalizeUrlPayloadSchema } from './payloads/normalizeUrlPayload.js';
-import {
-  RegisterControllerRoutesPayload,
-  registerControllerRoutesPayloadSchema,
-} from './payloads/registerControllerRoutesPayload.js';
-import { RegisterRoutesPayload, registerRoutesPayloadSchema } from './payloads/registerRoutesPayload.js';
 import { ApplicationError } from '../../common/errors/applicationError.js';
 import { BaseError } from '../../common/errors/baseError.js';
 import { DomainError } from '../../common/errors/domainError.js';
 import { HttpStatusCode } from '../../common/http/httpStatusCode.js';
 import { DependencyInjectionContainer } from '../../libs/dependencyInjection/dependencyInjectionContainer.js';
-import { loggerModuleSymbols } from '../../libs/logger/symbols.js';
+import { loggerSymbols } from '../../libs/logger/symbols.js';
 import { LoggerService } from '../../libs/logger/services/loggerService/loggerService.js';
 import { Validator } from '../../libs/validator/validator.js';
 import { UserHttpController } from '../modules/userModule/api/httpControllers/userHttpController/userHttpController.js';
 import { userSymbols } from '../modules/userModule/symbols.js';
+import { HttpController } from '../../common/http/httpController.js';
+import { HttpRoute } from '../../common/http/httpRoute.js';
+
+export interface NormalizeUrlPayload {
+  url: string;
+}
+
+export interface RegisterControllerRoutesPayload {
+  controller: HttpController;
+}
+
+export interface RegisterRoutesPayload {
+  routes: HttpRoute[];
+  basePath: string;
+}
 
 export class HttpRouter {
   private readonly rootPath = '';
@@ -25,7 +34,7 @@ export class HttpRouter {
     private readonly server: FastifyInstance,
     private readonly container: DependencyInjectionContainer,
   ) {
-    this.loggerService = this.container.get<LoggerService>(loggerModuleSymbols.loggerService);
+    this.loggerService = this.container.get<LoggerService>(loggerSymbols.loggerService);
   }
 
   public registerAllRoutes(): void {
@@ -34,8 +43,8 @@ export class HttpRouter {
     this.registerControllerRoutes({ controller: blockchainHttpController });
   }
 
-  private registerControllerRoutes(input: RegisterControllerRoutesPayload): void {
-    const { controller } = Validator.validate(registerControllerRoutesPayloadSchema, input);
+  private registerControllerRoutes(payload: RegisterControllerRoutesPayload): void {
+    const { controller } = payload;
 
     const { basePath } = controller;
 
@@ -44,8 +53,8 @@ export class HttpRouter {
     this.registerRoutes({ routes, basePath });
   }
 
-  private registerRoutes(input: RegisterRoutesPayload): void {
-    const { routes, basePath } = Validator.validate(registerRoutesPayloadSchema, input);
+  private registerRoutes(payload: RegisterRoutesPayload): void {
+    const { routes, basePath } = payload;
 
     routes.map(({ path, method, handler, schema }) => {
       const fastifyHandler = async (fastifyRequest: FastifyRequest, fastifyReply: FastifyReply): Promise<void> => {
@@ -170,8 +179,8 @@ export class HttpRouter {
     });
   }
 
-  private normalizeUrl(input: NormalizeUrlPayload): string {
-    const { url } = Validator.validate(normalizeUrlPayloadSchema, input);
+  private normalizeUrl(payload: NormalizeUrlPayload): string {
+    const { url } = payload;
 
     const urlWithoutDoubleSlashes = url.replace(/(\/+)/g, '/');
 

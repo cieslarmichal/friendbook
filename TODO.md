@@ -4,5 +4,6 @@ TODO:
 - [ ] address
 - [ ] group
 - [ ] post
+- [ ] like
 - [ ] comment
 - [ ] friends

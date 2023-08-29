@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm';
 
 import { LoginUserCommandHandler } from './loginUserCommandHandler';
 import { TestTransactionInternalRunner } from '../../../../../../common/tests/testTransactionInternalRunner';
-import { postgresModuleSymbols } from '../../../../../../libs/postgres/postgresModuleSymbols';
+import { postgresModuleSymbols } from '../../../../../../libs/neo4j/symbols';
 import { Application } from '../../../../../application';
 import { symbols, userSymbols } from '../../../symbols';
 import { UserEntityTestFactory } from '../../../tests/factories/userEntityTestFactory/userEntityTestFactory';

@@ -7,7 +7,11 @@
   "scripts": {
     "start:dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
     "build:clean": "rimraf dist",
-    "build": "tsc --build tsconfig.json"
+    "build": "tsc --build tsconfig.json",
+    "test:unit": "vitest .unit.test.ts --threads false",
+    "test:unit:watch": "npm run test:unit -- --watch",
+    "test:integration": "vitest .integration.test.ts --threads false",
+    "test:integration:watch": "npm run test:integration -- --watch"
   },
   "dependencies": {
     "bunyan": "^1.8.15",
@@ -38,7 +42,8 @@
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.33.0"
   },
   "volta": {
     "node": "20.4.0",

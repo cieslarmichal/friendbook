@@ -8,7 +8,7 @@ import { WarnPayload, warnPayloadSchema } from './payloads/warnPayload.js';
 import { Injectable, Inject } from '../../../dependencyInjection/decorators.js';
 import { Validator } from '../../../validator/validator.js';
 import { LoggerClient } from '../../clients/loggerClient/loggerClient.js';
-import { loggerModuleSymbols } from '../../loggerModuleSymbols.js';
+import { loggerModuleSymbols } from '../../symbols.js';
 
 @Injectable()
 export class LoggerServiceImpl implements LoggerService {

@@ -11,7 +11,7 @@ import { BaseError } from '../../common/errors/baseError.js';
 import { DomainError } from '../../common/errors/domainError.js';
 import { HttpStatusCode } from '../../common/http/httpStatusCode.js';
 import { DependencyInjectionContainer } from '../../libs/dependencyInjection/dependencyInjectionContainer.js';
-import { loggerModuleSymbols } from '../../libs/logger/loggerModuleSymbols.js';
+import { loggerModuleSymbols } from '../../libs/logger/symbols.js';
 import { LoggerService } from '../../libs/logger/services/loggerService/loggerService.js';
 import { Validator } from '../../libs/validator/validator.js';
 import { UserHttpController } from '../modules/userModule/api/httpControllers/userHttpController/userHttpController.js';

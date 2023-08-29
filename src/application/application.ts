@@ -8,7 +8,7 @@ import { EnvKey } from './envKey.js';
 import { DependencyInjectionContainer } from '../libs/dependencyInjection/dependencyInjectionContainer.js';
 import { DependencyInjectionContainerFactory } from '../libs/dependencyInjection/dependencyInjectionContainerFactory.js';
 import { LoggerModule } from '../libs/logger/loggerModule.js';
-import { loggerModuleSymbols } from '../libs/logger/loggerModuleSymbols.js';
+import { loggerModuleSymbols } from '../libs/logger/symbols.js';
 import { LogLevel } from '../libs/logger/logLevel.js';
 import { LoggerService } from '../libs/logger/services/loggerService/loggerService.js';
 import { UserModule } from './modules/userModule/userModule.js';

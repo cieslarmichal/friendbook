@@ -4,7 +4,7 @@ import { LoggerClientFactory } from './loggerClientFactory.js';
 import { Injectable, Inject } from '../../../dependencyInjection/decorators.js';
 import { LoggerClient } from '../../clients/loggerClient/loggerClient.js';
 import { LoggerModuleConfig } from '../../loggerModuleConfig.js';
-import { loggerModuleSymbols } from '../../loggerModuleSymbols.js';
+import { loggerModuleSymbols } from '../../symbols.js';
 
 @Injectable()
 export class LoggerClientFactoryImpl implements LoggerClientFactory {

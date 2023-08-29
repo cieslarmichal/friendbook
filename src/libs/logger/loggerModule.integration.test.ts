@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { describe, it, beforeAll, expect } from 'vitest';
 
 import { LoggerModule } from './loggerModule.js';
-import { loggerModuleSymbols } from './loggerModuleSymbols.js';
+import { loggerSymbols } from './symbols.js';
 import { LoggerService } from './services/loggerService/loggerService.js';
 import { LoggerServiceImpl } from './services/loggerService/loggerServiceImpl.js';
 import { LoggerModuleConfigTestFactory } from './tests/factories/loggerModuleConfigTestFactory/loggerModuleConfigTestFactory.js';
@@ -22,6 +22,6 @@ describe('LoggerModule', () => {
   });
 
   it('declares bindings', async () => {
-    expect(container.get<LoggerService>(loggerModuleSymbols.loggerService)).toBeInstanceOf(LoggerServiceImpl);
+    expect(container.get<LoggerService>(loggerSymbols.loggerService)).toBeInstanceOf(LoggerServiceImpl);
   });
 });

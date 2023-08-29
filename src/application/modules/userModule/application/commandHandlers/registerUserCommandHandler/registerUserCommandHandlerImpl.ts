@@ -8,7 +8,7 @@ import {
 } from './payloads/registerUserCommandHandlerResult';
 import { RegisterUserCommandHandler } from './registerUserCommandHandler';
 import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { loggerModuleSymbols } from '../../../../../../libs/logger/loggerModuleSymbols';
+import { loggerModuleSymbols } from '../../../../../../libs/logger/symbols';
 import { LoggerService } from '../../../../../../libs/logger/services/loggerService/loggerService';
 import { UuidGenerator } from '../../../../../../libs/uuid/uuidGenerator';
 import { Validator } from '../../../../../../libs/validator/validator';

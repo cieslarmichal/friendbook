@@ -14,6 +14,8 @@ import { DependencyInjectionContainer } from '../../libs/dependencyInjection/dep
 import { loggerModuleSymbols } from '../../libs/logger/loggerModuleSymbols.js';
 import { LoggerService } from '../../libs/logger/services/loggerService/loggerService.js';
 import { Validator } from '../../libs/validator/validator.js';
+import { UserHttpController } from '../modules/userModule/api/httpControllers/userHttpController/userHttpController.js';
+import { userSymbols } from '../modules/userModule/symbols.js';
 
 export class HttpRouter {
   private readonly rootPath = '';
@@ -27,9 +29,7 @@ export class HttpRouter {
   }
 
   public registerAllRoutes(): void {
-    const blockchainHttpController = this.container.get<BlockchainHttpController>(
-      blockchainModuleSymbols.blockchainHttpController,
-    );
+    const blockchainHttpController = this.container.get<UserHttpController>(userSymbols.userHttpController);
 
     this.registerControllerRoutes({ controller: blockchainHttpController });
   }

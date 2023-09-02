@@ -38,3 +38,8 @@ lerna-debug.log*
 .env.testing
 
 .eslintcache
+
+.turbo
+build/**
+dist/**
+.next/**

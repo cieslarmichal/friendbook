@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.json",
+  "files": [],
+  "references": [
+    {
+      "path": "common/validation"
+    },
+    {
+      "path": "common/types"
+    },
+    {
+      "path": "common/tests"
+    },
+    {
+      "path": "libs/neo4j"
+    },
+    {
+      "path": "libs/logger"
+    },
+    {
+      "path": "libs/dependencyInjection"
+    },
+    {
+      "path": "apps/backend"
+    }
+  ]
+}

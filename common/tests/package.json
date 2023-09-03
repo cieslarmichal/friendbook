@@ -10,7 +10,7 @@
     "/dist"
   ],
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "scripts": {
     "build:clean": "rimraf dist",
     "build": "tsc --build tsconfig.build.json",

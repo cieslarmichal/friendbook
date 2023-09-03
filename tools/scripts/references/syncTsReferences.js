@@ -2,10 +2,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const run = () => {
-  if (process.env.IS_CI === '1') {
-    return process.exit(0);
-  }
-
   const processPath = process.cwd();
 
   const tsConfigPath = path.resolve(processPath, 'tsconfig.json');

@@ -8,6 +8,11 @@
   ],
   "exclude": [
     "src/tests/**/*",
-    "src/**/*.test.ts",
+    "src/**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../../libs/dependencyInjection/tsconfig.build.json"
+    }
   ]
 }

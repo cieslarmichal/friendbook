@@ -21,7 +21,6 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
     "@types/bunyan": "^1.8.8",
     "@types/node": "^20.4.1",
     "@types/uuid": "^9.0.2",

@@ -3,6 +3,7 @@ import { Neo4jModuleConfig } from '../../neo4jModuleConfig.js';
 import { symbols } from '../../symbols.js';
 import { SessionFactory } from './sessionFactory.js';
 import { Session } from '../../session.js';
+import { Injectable, Inject } from '@libs/dependency-injection';
 
 @Injectable()
 export class SessionFactoryImpl implements SessionFactory {

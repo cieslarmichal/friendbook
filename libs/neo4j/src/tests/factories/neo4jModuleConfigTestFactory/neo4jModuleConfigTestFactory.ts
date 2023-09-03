@@ -1,4 +1,4 @@
-import { Neo4jModuleConfig } from '../../../neo4jModuleConfig';
+import { Neo4jModuleConfig } from '../../../neo4jModuleConfig.js';
 
 export class Neo4jModuleConfigTestFactory {
   public create(input: Partial<Neo4jModuleConfig> = {}): Neo4jModuleConfig {

@@ -1,9 +1,8 @@
-import { Session } from 'neo4j-driver';
-import { DependencyInjectionContainer } from '../dependencyInjection/dependencyInjectionContainer';
-import { DependencyInjectionModule } from '../dependencyInjection/dependencyInjectionModule';
-import { Neo4jModuleConfig } from './neo4jModuleConfig';
-import { symbols } from './symbols';
-import { SessionFactoryImpl } from './factories/sessionFactory/sessionFactoryImpl';
+import { DependencyInjectionModule, DependencyInjectionContainer } from '@libs/dependency-injection';
+import { SessionFactoryImpl } from './factories/sessionFactory/sessionFactoryImpl.js';
+import { Neo4jModuleConfig } from './neo4jModuleConfig.js';
+import { symbols } from './symbols.js';
+import { Session } from './session.js';
 
 export class Neo4jModule implements DependencyInjectionModule {
   public constructor(private readonly config: Neo4jModuleConfig) {}

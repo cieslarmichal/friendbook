@@ -1,7 +1,7 @@
 import { createLogger, LogLevel } from 'bunyan';
 
 import { LoggerClientFactory } from './loggerClientFactory.js';
-import { Injectable, Inject } from '../../../dependencyInjection/decorators.js';
+import { Injectable, Inject } from '../../../dependencyInjection/src/decorators.js';
 import { LoggerClient } from '../../clients/loggerClient/loggerClient.js';
 import { LoggerModuleConfig } from '../../loggerModuleConfig.js';
 import { loggerModuleSymbols } from '../../symbols.js';

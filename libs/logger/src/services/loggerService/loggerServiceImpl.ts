@@ -5,7 +5,7 @@ import { FatalPayload, fatalPayloadSchema } from './payloads/fatalPayload.js';
 import { InfoPayload, infoPayloadSchema } from './payloads/infoPayload.js';
 import { LogPayload, logPayloadSchema } from './payloads/logPayload.js';
 import { WarnPayload, warnPayloadSchema } from './payloads/warnPayload.js';
-import { Injectable, Inject } from '../../../dependencyInjection/decorators.js';
+import { Injectable, Inject } from '../../../dependencyInjection/src/decorators.js';
 import { Validator } from '../../../../../common/validator/validator.js';
 import { LoggerClient } from '../../clients/loggerClient/loggerClient.js';
 import { loggerModuleSymbols } from '../../symbols.js';

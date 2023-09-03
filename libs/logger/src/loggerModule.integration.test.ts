@@ -7,8 +7,7 @@ import { loggerSymbols } from './symbols.js';
 import { LoggerService } from './services/loggerService/loggerService.js';
 import { LoggerServiceImpl } from './services/loggerService/loggerServiceImpl.js';
 import { LoggerModuleConfigTestFactory } from './tests/factories/loggerModuleConfigTestFactory/loggerModuleConfigTestFactory.js';
-import { DependencyInjectionContainer } from '../dependencyInjection/dependencyInjectionContainer.js';
-import { DependencyInjectionContainerFactory } from '../dependencyInjection/dependencyInjectionContainerFactory.js';
+import { DependencyInjectionContainer, DependencyInjectionContainerFactory } from '@libs/dependency-injection';
 
 describe('LoggerModule', () => {
   let container: DependencyInjectionContainer;

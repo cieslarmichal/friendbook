@@ -4,31 +4,27 @@
   "author": "Michal Cieslar",
   "private": "true",
   "scripts": {
-    "start:dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
-    "build:clean": "rimraf dist",
-    "build": "tsc --build tsconfig.json",
-    "test:unit": "vitest .unit.test.ts --threads false",
-    "test:integration": "vitest .integration.test.ts --threads false"
+    "build": "turbo run build",
+    "build:clean": "turbo run build:clean",
+    "build:dev": "tsc -b tsconfig.dev.json",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "references:sync": "turbo run references:sync && node ./tools/scripts/references/syncRootTsReferences.js",
+    "postinstall": "npm run references:sync"
   },
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "fastify": "^4.19.2",
-    "tslib": "^2.6.0",
-    "uuid": "^9.0.0"
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.1",
-    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
-    "dotenv": "^16.3.1",
     "esbuild": "^0.18.11",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
-    "nodemon": "^3.0.0",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",

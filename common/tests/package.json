@@ -16,7 +16,9 @@
     "build": "tsc --build tsconfig.build.json",
     "build:dev": "tsc --build tsconfig.json",
     "test:unit": "vitest .unit.test.ts",
-    "test:integration": "vitest .integration.test.ts --threads false"
+    "test:integration": "vitest .integration.test.ts --threads false",
+    "postinstall": "npm run references:sync",
+    "references:sync": "node ../../tools/scripts/references/syncTsReferences.js"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2"

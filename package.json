@@ -11,17 +11,12 @@
     "test:integration": "vitest .integration.test.ts --threads false"
   },
   "dependencies": {
-    "bunyan": "^1.8.15",
     "dotenv": "^16.3.1",
     "fastify": "^4.19.2",
-    "inversify": "^6.0.1",
-    "neo4j-driver": "^5.11.0",
     "tslib": "^2.6.0",
-    "uuid": "^9.0.0",
-    "zod": "^3.21.4"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/bunyan": "^1.8.8",
     "@types/node": "^20.4.1",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",

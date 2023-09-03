@@ -1,0 +1,25 @@
+{
+  "name": "@libs/neo4j",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./tests": "./dist/src/tests/index.js"
+  },
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "version": "1.0.0",
+  "private": "true",
+  "scripts": {
+    "build:clean": "rimraf dist",
+    "build": "tsc --build tsconfig.build.json",
+    "build:dev": "tsc --build tsconfig.json",
+    "test:unit": "vitest .unit.test.ts",
+    "test:integration": "vitest .integration.test.ts --threads false"
+  },
+  "dependencies": {
+    "neo4j-driver": "^5.11.0",
+    "@libs/dependency-injection": "*"
+  },
+}

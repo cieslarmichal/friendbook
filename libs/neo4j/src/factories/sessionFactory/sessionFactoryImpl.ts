@@ -1,8 +1,8 @@
-import { SessionFactory } from './sessionFactory';
-import { Inject, Injectable } from '../../../dependencyInjection/decorators';
-import { Session, driver, auth } from 'neo4j-driver';
-import { symbols } from '../../symbols';
-import { Neo4jModuleConfig } from '../../neo4jModuleConfig';
+import { driver, auth } from 'neo4j-driver';
+import { Neo4jModuleConfig } from '../../neo4jModuleConfig.js';
+import { symbols } from '../../symbols.js';
+import { SessionFactory } from './sessionFactory.js';
+import { Session } from '../../session.js';
 
 @Injectable()
 export class SessionFactoryImpl implements SessionFactory {

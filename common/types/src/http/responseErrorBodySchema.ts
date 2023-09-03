@@ -1,5 +1,4 @@
-import { Schema } from '../../libs/validator/schema.js';
-import { SchemaType } from '../../libs/validator/schemaType.js';
+import { Schema, SchemaType } from '@common/validation';
 
 export const responseErrorBodySchema = Schema.object({
   error: Schema.object({

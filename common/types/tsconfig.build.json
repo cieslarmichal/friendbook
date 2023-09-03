@@ -10,5 +10,9 @@
     "src/tests/**/*",
     "src/**/*.test.ts"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "../../common/validation/tsconfig.build.json"
+    }
+  ]
 }

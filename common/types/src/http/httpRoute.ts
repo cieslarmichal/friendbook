@@ -4,10 +4,7 @@ import { HttpMethodName } from './httpMethodName.js';
 import { HttpRequest } from './httpRequest.js';
 import { httpResponseSchema } from './httpResponse.js';
 import { HttpRouteHandler } from './httpRouteHandler.js';
-import { Schema } from '../../libs/validator/schema.js';
-import { SchemaObject } from '../../libs/validator/schemaObject.js';
-import { SchemaType } from '../../libs/validator/schemaType.js';
-import { Validator } from '../../libs/validator/validator.js';
+import { Schema, SchemaObject, SchemaType, Validator } from '@common/validation';
 
 const httpRouteSchemaSchema = Schema.object({
   request: Schema.object({

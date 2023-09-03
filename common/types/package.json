@@ -21,6 +21,7 @@
     "references:sync": "node ../../tools/scripts/references/syncTsReferences.js"
   },
   "dependencies": {
-    "http-status-codes": "^2.2.0"
+    "http-status-codes": "^2.2.0",
+    "@common/validation": "*"
   }
 }

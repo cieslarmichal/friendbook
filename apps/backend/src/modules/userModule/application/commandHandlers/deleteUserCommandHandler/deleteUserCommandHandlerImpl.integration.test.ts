@@ -1,15 +1,12 @@
 import 'reflect-metadata';
 
-import { DataSource } from 'typeorm';
-
-import { DeleteUserCommandHandler } from './deleteUserCommandHandler';
-import { TestTransactionInternalRunner } from '../../../../../../common/tests/testTransactionInternalRunner';
-import { postgresModuleSymbols } from '../../../../../../libs/neo4j/symbols';
-import { Application } from '../../../../../application';
-import { symbols, userSymbols } from '../../../symbols';
-import { UserEntityTestFactory } from '../../../tests/factories/userEntityTestFactory/userEntityTestFactory';
-import { UserNotFoundError } from '../../errors/userNotFoundError';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
+import { beforeEach, afterAll, expect } from 'vitest';
+import { Application } from '../../../../../application.js';
+import { userSymbols } from '../../../symbols.js';
+import { UserEntityTestFactory } from '../../../tests/factories/userEntityTestFactory/userEntityTestFactory.js';
+import { UserNotFoundError } from '../../errors/userNotFoundError.js';
+import { DeleteUserCommandHandler } from './deleteUserCommandHandler.js';
+import { symbols } from '@libs/logger';
 
 describe('DeleteUserCommandHandler', () => {
   let deleteUserCommandHandler: DeleteUserCommandHandler;
@@ -19,7 +16,7 @@ describe('DeleteUserCommandHandler', () => {
 
   const userEntityTestFactory = new UserEntityTestFactory();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const container = Application.createContainer();
 
     deleteUserCommandHandler = container.get<DeleteUserCommandHandler>(symbols.deleteUserCommandHandler);

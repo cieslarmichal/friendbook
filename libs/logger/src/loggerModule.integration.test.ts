@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { describe, it, beforeAll, expect } from 'vitest';
+import { describe, it, beforeEach, expect } from 'vitest';
 
 import { LoggerModule } from './loggerModule.js';
 import { loggerSymbols } from './symbols.js';
@@ -14,7 +14,7 @@ describe('LoggerModule', () => {
 
   const loggerModuleConfig = new LoggerModuleConfigTestFactory().create();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     container = DependencyInjectionContainerFactory.create({
       modules: [new LoggerModule(loggerModuleConfig)],
     });

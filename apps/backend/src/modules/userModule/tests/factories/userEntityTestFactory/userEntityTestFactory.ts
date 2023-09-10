@@ -5,7 +5,7 @@ import { UserEntity } from '../../../infrastructure/repositories/userRepository/
 export class UserEntityTestFactory {
   public create(input: Partial<UserEntity> = {}): UserEntity {
     return {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
       password: faker.internet.password(24),

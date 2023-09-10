@@ -1,0 +1,1 @@
+{"version":3,"file":"neo4jModule.d.ts","sourceRoot":"","sources":["../../src/neo4jModule.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,yBAAyB,EAAE,4BAA4B,EAAE,MAAM,4BAA4B,CAAC;AAErG,OAAO,EAAE,iBAAiB,EAAE,MAAM,wBAAwB,CAAC;AAI3D,qBAAa,WAAY,YAAW,yBAAyB;IACxC,OAAO,CAAC,QAAQ,CAAC,MAAM;gBAAN,MAAM,EAAE,iBAAiB;IAEtD,eAAe,CAAC,SAAS,EAAE,4BAA4B,GAAG,IAAI;CAKtE"}

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { Session } from 'neo4j-driver';
-import { describe, beforeAll, expect, it } from 'vitest';
+import { describe, beforeEach, expect, it } from 'vitest';
 import { DependencyInjectionContainer, DependencyInjectionContainerFactory } from '@libs/dependency-injection';
 import { neo4jSymbols } from './symbols.js';
 import { Neo4jModule } from './neo4jModule.js';
@@ -12,7 +12,7 @@ describe('Neo4jModule', () => {
 
   const neo4jModuleConfig = new Neo4jModuleConfigTestFactory().create();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     container = DependencyInjectionContainerFactory.create({
       modules: [new Neo4jModule(neo4jModuleConfig)],
     });

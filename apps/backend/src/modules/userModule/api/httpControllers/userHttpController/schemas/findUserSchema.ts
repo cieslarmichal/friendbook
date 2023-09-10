@@ -1,6 +1,5 @@
-import { userSchema } from './userSchema';
-import { Schema } from '../../../../../../../libs/validator/schema';
-import { SchemaType } from '../../../../../../../libs/validator/schemaType';
+import { Schema, SchemaType } from '@common/validation';
+import { userSchema } from './userSchema.js';
 
 export const findUserPathParametersSchema = Schema.object({
   id: Schema.string(),

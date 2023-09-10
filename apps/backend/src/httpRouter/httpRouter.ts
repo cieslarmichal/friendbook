@@ -1,17 +1,10 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-
-import { ApplicationError } from '../../common/errors/applicationError.js';
-import { BaseError } from '../../common/errors/baseError.js';
-import { DomainError } from '../../common/errors/domainError.js';
-import { HttpStatusCode } from '../../common/http/httpStatusCode.js';
-import { DependencyInjectionContainer } from '../../libs/dependencyInjection/dependencyInjectionContainer.js';
-import { loggerSymbols } from '../../libs/logger/symbols.js';
-import { LoggerService } from '../../libs/logger/services/loggerService/loggerService.js';
-import { Validator } from '../../libs/validator/validator.js';
 import { UserHttpController } from '../modules/userModule/api/httpControllers/userHttpController/userHttpController.js';
 import { userSymbols } from '../modules/userModule/symbols.js';
-import { HttpController } from '../../common/http/httpController.js';
-import { HttpRoute } from '../../common/http/httpRoute.js';
+import { HttpController, HttpRoute, HttpStatusCode } from '@common/types';
+import { Validator, BaseError, ApplicationError, DomainError } from '@common/validation';
+import { DependencyInjectionContainer } from '@libs/dependency-injection';
+import { LoggerService, loggerSymbols } from '@libs/logger';
 
 export interface NormalizeUrlPayload {
   url: string;

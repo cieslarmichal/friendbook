@@ -10,5 +10,24 @@
     "src/tests/**/*",
     "src/**/*.test.ts"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "../../common/types/tsconfig.build.json"
+    },
+    {
+      "path": "../../common/validation/tsconfig.build.json"
+    },
+    {
+      "path": "../../libs/dependencyInjection/tsconfig.build.json"
+    },
+    {
+      "path": "../../libs/logger/tsconfig.build.json"
+    },
+    {
+      "path": "../../libs/neo4j/tsconfig.build.json"
+    },
+    {
+      "path": "../../common/tests/tsconfig.build.json"
+    }
+  ]
 }

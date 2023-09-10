@@ -1,14 +1,15 @@
 import 'reflect-metadata';
 
-import { UserMapperImpl } from './userMapperImpl';
-import { UserEntityTestFactory } from '../../../../tests/factories/userEntityTestFactory/userEntityTestFactory';
+import { UserEntityTestFactory } from '../../../../tests/factories/userEntityTestFactory/userEntityTestFactory.js';
+import { UserMapperImpl } from './userMapperImpl.js';
+import { describe, beforeEach, expect, it } from 'vitest';
 
 describe('UserMapperImpl', () => {
   let userMapperImpl: UserMapperImpl;
 
   const userEntityTestFactory = new UserEntityTestFactory();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     userMapperImpl = new UserMapperImpl();
   });
 

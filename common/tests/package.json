@@ -22,5 +22,13 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2"
+  },
+  "volta": {
+    "node": "20.4.0",
+    "npm": "9.8.0"
+  },
+  "engines": {
+    "node": "=20.4.0",
+    "npm": "=9.8.0"
   }
 }

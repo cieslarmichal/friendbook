@@ -1,4 +1,5 @@
-import { DeleteUserCommandHandlerPayload } from './payloads/deleteUserCommandHandlerPayload';
-import { CommandHandler } from '../../../../../../common/types/commandHandler';
+export interface DeleteUserCommandHandlerPayload {
+  readonly userId: string;
+}
 
 export type DeleteUserCommandHandler = CommandHandler<DeleteUserCommandHandlerPayload, void>;

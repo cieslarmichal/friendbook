@@ -1,0 +1,1 @@
+{"version":3,"file":"httpStatusCode.d.ts","sourceRoot":"","sources":["../../../src/http/httpStatusCode.ts"],"names":[],"mappings":"AAEA,oBAAY,cAAc;IACxB,EAAE,MAAiB;IACnB,QAAQ,MAAuB;IAC/B,OAAO,MAAsB;IAC7B,SAAS,MAAyB;IAClC,UAAU,MAA0B;IACpC,YAAY,MAA2B;IACvC,SAAS,MAAwB;IACjC,QAAQ,MAAwB;IAChC,QAAQ,MAAuB;IAC/B,mBAAmB,MAAmC;IACtD,mBAAmB,MAAoC;CACxD"}

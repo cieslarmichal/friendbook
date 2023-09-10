@@ -23,7 +23,7 @@ describe('LoginUserCommandHandler', () => {
 
   const userEntityTestFactory = new UserEntityTestFactory();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const container = Application.createContainer();
 
     loginUserCommandHandler = container.get<LoginUserCommandHandler>(symbols.loginUserCommandHandler);

@@ -1,5 +1,10 @@
-import { LoginUserCommandHandlerPayload } from './payloads/loginUserCommandHandlerPayload';
-import { LoginUserCommandHandlerResult } from './payloads/loginUserCommandHandlerResult';
-import { CommandHandler } from '../../../../../../common/types/commandHandler';
+export interface LoginUserCommandHandlerPayload {
+  readonly email: string;
+  readonly password: string;
+}
+
+export interface LoginUserCommandHandlerResult {
+  readonly accessToken: string;
+}
 
 export type LoginUserCommandHandler = CommandHandler<LoginUserCommandHandlerPayload, LoginUserCommandHandlerResult>;

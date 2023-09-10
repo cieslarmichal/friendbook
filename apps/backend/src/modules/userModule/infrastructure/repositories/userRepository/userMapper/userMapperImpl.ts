@@ -1,17 +1,16 @@
-import { UserMapper } from './userMapper';
-import { Injectable } from '../../../../../../../libs/dependencyInjection/decorators';
-import { User } from '../../../../domain/entities/user/user';
-import { UserEntity } from '../userEntity/userEntity';
+import { Injectable } from '@libs/dependency-injection';
+import { User } from '../../../../domain/entities/user/user.js';
+import { UserMapper } from './userMapper.js';
+import { UserRawEntity } from '../userRawEntity/userRawEntity.js';
 
 @Injectable()
 export class UserMapperImpl implements UserMapper {
-  public map(entity: UserEntity): User {
-    const { id, email, phoneNumber, password } = entity;
+  public map(entity: UserRawEntity): User {
+    const { id, email, password } = entity;
 
     return new User({
       id,
-      email: email || undefined,
-      phoneNumber: phoneNumber || undefined,
+      email,
       password,
     });
   }

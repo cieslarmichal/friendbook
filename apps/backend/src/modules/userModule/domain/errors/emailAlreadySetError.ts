@@ -1,5 +1,3 @@
-import { ApplicationError } from '../../../../../common/errors/applicationError';
-
 interface Context {
   readonly email: string;
   readonly userId: string;

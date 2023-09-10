@@ -23,5 +23,13 @@
   "dependencies": {
     "neo4j-driver": "^5.11.0",
     "@libs/dependency-injection": "*"
+  },
+  "volta": {
+    "node": "20.4.0",
+    "npm": "9.8.0"
+  },
+  "engines": {
+    "node": "=20.4.0",
+    "npm": "=9.8.0"
   }
 }

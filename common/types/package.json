@@ -23,5 +23,13 @@
   "dependencies": {
     "http-status-codes": "^2.2.0",
     "@common/validation": "*"
+  },
+  "volta": {
+    "node": "20.4.0",
+    "npm": "9.8.0"
+  },
+  "engines": {
+    "node": "=20.4.0",
+    "npm": "=9.8.0"
   }
 }

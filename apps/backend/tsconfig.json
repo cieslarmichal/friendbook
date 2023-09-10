@@ -6,5 +6,24 @@
   "include": [
     "src"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "../../common/types/tsconfig.json"
+    },
+    {
+      "path": "../../common/validation/tsconfig.json"
+    },
+    {
+      "path": "../../libs/dependencyInjection/tsconfig.json"
+    },
+    {
+      "path": "../../libs/logger/tsconfig.json"
+    },
+    {
+      "path": "../../libs/neo4j/tsconfig.json"
+    },
+    {
+      "path": "../../common/tests/tsconfig.json"
+    }
+  ]
 }

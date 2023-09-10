@@ -1,6 +1,13 @@
-import { RegisterUserCommandHandlerPayload } from './payloads/registerUserCommandHandlerPayload';
-import { RegisterUserCommandHandlerResult } from './payloads/registerUserCommandHandlerResult';
-import { CommandHandler } from '../../../../../../common/types/commandHandler';
+import { User } from '../../../domain/entities/user/user.js';
+
+export interface RegisterUserCommandHandlerPayload {
+  readonly email: string;
+  readonly password: string;
+}
+
+export interface RegisterUserCommandHandlerResult {
+  readonly user: User;
+}
 
 export type RegisterUserCommandHandler = CommandHandler<
   RegisterUserCommandHandlerPayload,

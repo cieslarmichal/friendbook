@@ -1,5 +1,4 @@
-import { Schema } from '../../../../../../../libs/validator/schema';
-import { SchemaType } from '../../../../../../../libs/validator/schemaType';
+import { Schema, SchemaType } from '@common/validation';
 
 export const deleteUserPathParametersSchema = Schema.object({
   id: Schema.string(),

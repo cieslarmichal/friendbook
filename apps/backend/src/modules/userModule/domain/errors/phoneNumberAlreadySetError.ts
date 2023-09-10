@@ -1,5 +1,3 @@
-import { ApplicationError } from '../../../../../common/errors/applicationError';
-
 interface Context {
   readonly phoneNumber: string;
   readonly userId: string;

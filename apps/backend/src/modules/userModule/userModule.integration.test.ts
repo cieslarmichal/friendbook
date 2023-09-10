@@ -12,7 +12,7 @@ import { Application } from '../../application';
 describe('UserModule', () => {
   let container: DependencyInjectionContainer;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     container = Application.createContainer();
   });
 

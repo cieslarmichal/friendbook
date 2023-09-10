@@ -1,8 +1,25 @@
-import { CreateUserPayload } from './payloads/createUserPayload';
-import { DeleteUserPayload } from './payloads/deleteUserPayload';
-import { FindUserPayload } from './payloads/findUserPayload';
-import { UpdateUserPayload } from './payloads/updateUserPayload';
-import { User } from '../../../domain/entities/user/user';
+import { User } from '../../../domain/entities/user/user.js';
+
+export interface CreateUserPayload {
+  id: string;
+  email: string;
+  password: string;
+}
+
+export interface FindUserPayload {
+  id?: string;
+  email?: string;
+}
+
+export interface UpdateUserPayload {
+  id: string;
+  password: string;
+}
+
+export interface DeleteUserPayload {
+  id: string;
+  password?: string;
+}
 
 export interface UserRepository {
   createUser(input: CreateUserPayload): Promise<User>;

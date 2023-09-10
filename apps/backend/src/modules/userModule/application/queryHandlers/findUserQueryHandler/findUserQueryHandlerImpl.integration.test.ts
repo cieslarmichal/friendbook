@@ -19,7 +19,7 @@ describe('FindUserQueryHandler', () => {
 
   const userEntityTestFactory = new UserEntityTestFactory();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const container = Application.createContainer();
 
     findUserQueryHandler = container.get<FindUserQueryHandler>(symbols.findUserQueryHandler);

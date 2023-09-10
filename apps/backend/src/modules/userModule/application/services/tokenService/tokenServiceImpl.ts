@@ -1,9 +1,7 @@
 import { sign, verify } from 'jsonwebtoken';
-
-import { TokenService } from './tokenService';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { symbols } from '../../../symbols';
-import { UserModuleConfig } from '../../../userModuleConfig';
+import { symbols } from '../../../symbols.js';
+import { UserModuleConfig } from '../../../userModuleConfig.js';
+import { TokenService } from './tokenService.js';
 
 @Injectable()
 export class TokenServiceImpl implements TokenService {

@@ -1,9 +1,8 @@
 import { hash, compare, genSalt } from 'bcrypt';
-
-import { HashService } from './hashService';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { symbols } from '../../../symbols';
-import { UserModuleConfig } from '../../../userModuleConfig';
+import { symbols } from '../../../symbols.js';
+import { UserModuleConfig } from '../../../userModuleConfig.js';
+import { HashService } from './hashService.js';
+import { Inject, Injectable } from '@libs/dependency-injection';
 
 @Injectable()
 export class HashServiceImpl implements HashService {

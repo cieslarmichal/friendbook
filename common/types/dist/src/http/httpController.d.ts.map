@@ -1,0 +1,1 @@
+{"version":3,"file":"httpController.d.ts","sourceRoot":"","sources":["../../../src/http/httpController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAE3C,8BAAsB,cAAc;IAClC,kBAAyB,QAAQ,EAAE,MAAM,CAAC;aAE1B,aAAa,IAAI,SAAS,EAAE;CAC7C"}

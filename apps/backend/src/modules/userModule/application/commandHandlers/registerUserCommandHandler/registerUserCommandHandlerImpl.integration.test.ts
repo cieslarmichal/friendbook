@@ -19,7 +19,7 @@ describe('RegisterUserCommandHandler', () => {
 
   const userEntityTestFactory = new UserEntityTestFactory();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const container = Application.createContainer();
 
     registerUserCommandHandler = container.get<RegisterUserCommandHandler>(symbols.registerUserCommandHandler);

@@ -1,14 +1,7 @@
-import { DeleteUserCommandHandler } from './deleteUserCommandHandler';
-import {
-  DeleteUserCommandHandlerPayload,
-  deleteUserCommandHandlerPayloadSchema,
-} from './payloads/deleteUserCommandHandlerPayload';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { loggerModuleSymbols } from '../../../../../../libs/logger/symbols';
-import { LoggerService } from '../../../../../../libs/logger/services/loggerService/loggerService';
-import { Validator } from '../../../../../../libs/validator/validator';
-import { symbols } from '../../../symbols';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
+import { Validator } from '@common/validation';
+import { Injectable, Inject } from '@libs/dependency-injection';
+import { symbols, LoggerService } from '@libs/logger';
+import { DeleteUserCommandHandler, DeleteUserCommandHandlerPayload } from './deleteUserCommandHandler.js';
 
 @Injectable()
 export class DeleteUserCommandHandlerImpl implements DeleteUserCommandHandler {

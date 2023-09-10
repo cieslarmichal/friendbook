@@ -1,0 +1,1 @@
+{"version":3,"file":"neo4jModuleConfig.d.ts","sourceRoot":"","sources":["../../src/neo4jModuleConfig.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,iBAAiB;IAChC,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;IAC9B,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;IAC9B,QAAQ,CAAC,gBAAgB,EAAE,MAAM,CAAC;CACnC"}

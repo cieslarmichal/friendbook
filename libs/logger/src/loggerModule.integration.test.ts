@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { describe, it, beforeEach, expect } from 'vitest';
 
 import { LoggerModule } from './loggerModule.js';

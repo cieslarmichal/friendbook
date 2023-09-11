@@ -1,32 +1,29 @@
-import { FindUserQueryHandler } from './findUserQueryHandler';
-import { FindUserQueryHandlerPayload, findUserQueryHandlerPayloadSchema } from './payloads/findUserQueryHandlerPayload';
-import { FindUserQueryHandlerResult, findUserQueryHandlerResultSchema } from './payloads/findUserQueryHandlerResult';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { Validator } from '../../../../../../libs/validator/validator';
-import { symbols } from '../../../symbols';
-import { UserNotFoundError } from '../../errors/userNotFoundError';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
+import { Injectable, Inject } from '@libs/dependency-injection';
+import { UserNotFoundError } from '../../errors/userNotFoundError.js';
+import {
+  FindUserQueryHandler,
+  FindUserQueryHandlerPayload,
+  FindUserQueryHandlerResult,
+} from './findUserQueryHandler.js';
+import { symbols } from '../../../symbols.js';
+import { UserRepository } from '../../repositories/userRepository/userRepository.js';
 
 @Injectable()
 export class FindUserQueryHandlerImpl implements FindUserQueryHandler {
   public constructor(
-    @Inject(symbols.userRepositoryFactory)
-    private readonly userRepositoryFactory: UserRepositoryFactory,
+    @Inject(symbols.userRepository)
+    private readonly userRepository: UserRepository,
   ) {}
 
-  public async execute(input: FindUserQueryHandlerPayload): Promise<FindUserQueryHandlerResult> {
-    const { unitOfWork, userId } = Validator.validate(findUserQueryHandlerPayloadSchema, input);
+  public async execute(payload: FindUserQueryHandlerPayload): Promise<FindUserQueryHandlerResult> {
+    const { userId } = payload;
 
-    const entityManager = unitOfWork.getEntityManager();
-
-    const userRepository = this.userRepositoryFactory.create(entityManager);
-
-    const user = await userRepository.findUser({ id: userId });
+    const user = await this.userRepository.findUser({ id: userId });
 
     if (!user) {
       throw new UserNotFoundError({ id: userId });
     }
 
-    return Validator.validate(findUserQueryHandlerResultSchema, { user });
+    return { user };
   }
 }

@@ -1,149 +1,64 @@
-import 'reflect-metadata';
-
-import { DataSource } from 'typeorm';
-
-import { RegisterUserCommandHandler } from './registerUserCommandHandler';
-import { TestTransactionInternalRunner } from '../../../../../../common/tests/testTransactionInternalRunner';
-import { postgresModuleSymbols } from '../../../../../../libs/neo4j/symbols';
-import { Application } from '../../../../../application';
-import { symbols, userSymbols } from '../../../symbols';
-import { UserEntityTestFactory } from '../../../tests/factories/userEntityTestFactory/userEntityTestFactory';
-import { UserAlreadyExistsError } from '../../errors/userAlreadyExistsError';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
+import { beforeEach, afterAll, expect, describe, it } from 'vitest';
+import { Application } from '../../../../../application.js';
+import { symbols } from '../../../symbols.js';
+import { UserRawEntityTestFactory } from '../../../tests/factories/userRawEntityTestFactory/userRawEntityTestFactory.js';
+import { UserAlreadyExistsError } from '../../errors/userAlreadyExistsError.js';
+import { RegisterUserCommandHandler } from './registerUserCommandHandler.js';
+import { Session, neo4jSymbols } from '@libs/neo4j';
+import { UserRepository } from '../../repositories/userRepository/userRepository.js';
 
 describe('RegisterUserCommandHandler', () => {
   let registerUserCommandHandler: RegisterUserCommandHandler;
-  let userRepositoryFactory: UserRepositoryFactory;
-  let testTransactionRunner: TestTransactionInternalRunner;
-  let dataSource: DataSource;
+  let userRepository: UserRepository;
+  let session: Session;
 
-  const userEntityTestFactory = new UserEntityTestFactory();
+  const userEntityTestFactory = new UserRawEntityTestFactory();
 
   beforeEach(async () => {
     const container = Application.createContainer();
 
     registerUserCommandHandler = container.get<RegisterUserCommandHandler>(symbols.registerUserCommandHandler);
-    userRepositoryFactory = container.get<UserRepositoryFactory>(userSymbols.userRepositoryFactory);
-    dataSource = container.get<DataSource>(postgresModuleSymbols.dataSource);
-
-    await dataSource.initialize();
-
-    testTransactionRunner = new TestTransactionInternalRunner(container);
+    userRepository = container.get<UserRepository>(symbols.userRepository);
+    session = container.get<Session>(neo4jSymbols.session);
   });
 
   afterAll(async () => {
-    await dataSource.destroy();
+    await session.close();
   });
 
-  describe('Register user by email', () => {
-    it('creates user in database', async () => {
-      expect.assertions(1);
+  it('creates user in database', async () => {
+    const { email, password } = userEntityTestFactory.create();
 
-      await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-        const entityManager = unitOfWork.getEntityManager();
-
-        const userRepository = userRepositoryFactory.create(entityManager);
-
-        const { email, password } = userEntityTestFactory.create();
-
-        const { user } = await registerUserCommandHandler.execute({
-          unitOfWork,
-          draft: {
-            email: email as string,
-            password,
-          },
-        });
-
-        const foundUser = await userRepository.findUser({ id: user.id });
-
-        expect(foundUser).not.toBeNull();
-      });
+    const { user } = await registerUserCommandHandler.execute({
+      email: email as string,
+      password,
     });
 
-    it('should not create user and throw if user with the same email already exists', async () => {
-      expect.assertions(1);
+    const foundUser = await userRepository.findUser({ id: user.id });
 
-      await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-        const entityManager = unitOfWork.getEntityManager();
-
-        const userRepository = userRepositoryFactory.create(entityManager);
-
-        const { id, email, password } = userEntityTestFactory.create();
-
-        await userRepository.createUser({
-          id,
-          email: email as string,
-          password,
-        });
-
-        try {
-          await registerUserCommandHandler.execute({
-            unitOfWork,
-            draft: {
-              email: email as string,
-              password,
-            },
-          });
-        } catch (error) {
-          expect(error).toBeInstanceOf(UserAlreadyExistsError);
-        }
-      });
-    });
+    expect(foundUser).not.toBeNull();
   });
 
-  describe('Register user by phone number', () => {
-    it('creates user in database', async () => {
-      expect.assertions(1);
+  it('should not create user and throw if user with the same email already exists', async () => {
+    const { id, email, password } = userEntityTestFactory.create();
 
-      await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-        const entityManager = unitOfWork.getEntityManager();
-
-        const userRepository = userRepositoryFactory.create(entityManager);
-
-        const { phoneNumber, password } = userEntityTestFactory.create();
-
-        const { user } = await registerUserCommandHandler.execute({
-          unitOfWork,
-          draft: {
-            phoneNumber: phoneNumber as string,
-            password,
-          },
-        });
-
-        const foundUser = await userRepository.findUser({ id: user.id });
-
-        expect(foundUser).not.toBeNull();
-      });
+    await userRepository.createUser({
+      id,
+      email: email as string,
+      password,
     });
 
-    it('should not create user and throw if user with the same phone number already exists', async () => {
-      expect.assertions(1);
-
-      await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-        const entityManager = unitOfWork.getEntityManager();
-
-        const userRepository = userRepositoryFactory.create(entityManager);
-
-        const { id, phoneNumber, password } = userEntityTestFactory.create();
-
-        await userRepository.createUser({
-          id,
-          phoneNumber: phoneNumber as string,
-          password,
-        });
-
-        try {
-          await registerUserCommandHandler.execute({
-            unitOfWork,
-            draft: {
-              phoneNumber: phoneNumber as string,
-              password,
-            },
-          });
-        } catch (error) {
-          expect(error).toBeInstanceOf(UserAlreadyExistsError);
-        }
+    try {
+      await registerUserCommandHandler.execute({
+        email: email as string,
+        password,
       });
-    });
+    } catch (error) {
+      expect(error).toBeInstanceOf(UserAlreadyExistsError);
+
+      return;
+    }
+
+    expect.fail();
   });
 });

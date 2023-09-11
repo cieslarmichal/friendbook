@@ -1,3 +1,4 @@
+import { CommandHandler } from '@common/types';
 import { User } from '../../../domain/entities/user/user.js';
 
 export interface RegisterUserCommandHandlerPayload {

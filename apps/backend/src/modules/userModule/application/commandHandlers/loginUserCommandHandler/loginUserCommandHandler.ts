@@ -1,3 +1,5 @@
+import { CommandHandler } from '@common/types';
+
 export interface LoginUserCommandHandlerPayload {
   readonly email: string;
   readonly password: string;

@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { Session } from 'neo4j-driver';
 import { describe, beforeEach, expect, it } from 'vitest';
 import { DependencyInjectionContainer, DependencyInjectionContainerFactory } from '@libs/dependency-injection';

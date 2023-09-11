@@ -2,6 +2,7 @@ import { sign, verify } from 'jsonwebtoken';
 import { symbols } from '../../../symbols.js';
 import { UserModuleConfig } from '../../../userModuleConfig.js';
 import { TokenService } from './tokenService.js';
+import { Injectable, Inject } from '@libs/dependency-injection';
 
 @Injectable()
 export class TokenServiceImpl implements TokenService {

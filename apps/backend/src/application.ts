@@ -1,21 +1,13 @@
-import 'reflect-metadata';
-
 import 'dotenv/config';
 
 import { fastify } from 'fastify';
 
 import { EnvKey } from './envKey.js';
-import { DependencyInjectionContainer } from '../libs/dependencyInjection/dependencyInjectionContainer.js';
-import { DependencyInjectionContainerFactory } from '../libs/dependencyInjection/dependencyInjectionContainerFactory.js';
-import { LoggerModule } from '../libs/logger/loggerModule.js';
-import { loggerSymbols } from '../libs/logger/symbols.js';
-import { LogLevel } from '../libs/logger/logLevel.js';
-import { LoggerService } from '../libs/logger/services/loggerService/loggerService.js';
-import { UserModule } from './modules/userModule/userModule.js';
+import { DependencyInjectionContainer, DependencyInjectionContainerFactory } from '@libs/dependency-injection';
+import { LogLevel, LoggerModule, LoggerService, loggerSymbols } from '@libs/logger';
+import { Neo4jModule, Session, neo4jSymbols } from '@libs/neo4j';
 import { HttpRouter } from './httpRouter/httpRouter.js';
-import { Neo4jModule } from '../libs/neo4j/neo4jModule.js';
-import { Session } from 'neo4j-driver';
-import { neo4jSymbols } from '../libs/neo4j/symbols.js';
+import { UserModule } from './modules/userModule/userModule.js';
 
 export class Application {
   public static createContainer(): DependencyInjectionContainer {
@@ -60,6 +52,10 @@ export class Application {
     const loggerService = container.get<LoggerService>(loggerSymbols.loggerService);
 
     const session = container.get<Session>(neo4jSymbols.session);
+
+    const result = await session.run('');
+
+    console.log(result);
 
     loggerService.log({ message: `Server started.`, context: { httpServerHost, httpServerPort } });
   }

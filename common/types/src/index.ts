@@ -11,3 +11,5 @@ export * from './http/httpRoute.js';
 export * from './http/httpRouteHandler.js';
 export * from './http/httpStatusCode.js';
 export * from './http/responseErrorBodySchema.js';
+export * from './http/authorizationType.js';
+export * from './http/requestContext.js';

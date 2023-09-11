@@ -1,72 +1,58 @@
-import 'reflect-metadata';
-
-import { beforeEach, afterAll, expect } from 'vitest';
+import { beforeEach, afterAll, expect, describe, it } from 'vitest';
 import { Application } from '../../../../../application.js';
-import { userSymbols } from '../../../symbols.js';
-import { UserEntityTestFactory } from '../../../tests/factories/userEntityTestFactory/userEntityTestFactory.js';
+import { symbols } from '../../../symbols.js';
+import { UserRawEntityTestFactory } from '../../../tests/factories/userRawEntityTestFactory/userRawEntityTestFactory.js';
 import { UserNotFoundError } from '../../errors/userNotFoundError.js';
 import { DeleteUserCommandHandler } from './deleteUserCommandHandler.js';
-import { symbols } from '@libs/logger';
+import { Session, neo4jSymbols } from '@libs/neo4j';
+import { UserRepository } from '../../repositories/userRepository/userRepository.js';
 
 describe('DeleteUserCommandHandler', () => {
   let deleteUserCommandHandler: DeleteUserCommandHandler;
-  let userRepositoryFactory: UserRepositoryFactory;
-  let testTransactionRunner: TestTransactionInternalRunner;
-  let dataSource: DataSource;
+  let userRepository: UserRepository;
+  let session: Session;
 
-  const userEntityTestFactory = new UserEntityTestFactory();
+  const userEntityTestFactory = new UserRawEntityTestFactory();
 
   beforeEach(async () => {
     const container = Application.createContainer();
 
     deleteUserCommandHandler = container.get<DeleteUserCommandHandler>(symbols.deleteUserCommandHandler);
-    userRepositoryFactory = container.get<UserRepositoryFactory>(userSymbols.userRepositoryFactory);
-    dataSource = container.get<DataSource>(postgresModuleSymbols.dataSource);
-
-    await dataSource.initialize();
-
-    testTransactionRunner = new TestTransactionInternalRunner(container);
+    userRepository = container.get<UserRepository>(symbols.userRepository);
+    session = container.get<Session>(neo4jSymbols.session);
   });
 
   afterAll(async () => {
-    await dataSource.destroy();
+    await session.close();
   });
 
   it('deletes user from database', async () => {
-    expect.assertions(1);
+    const { id, email, password } = userEntityTestFactory.create();
 
-    await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-      const entityManager = unitOfWork.getEntityManager();
-
-      const userRepository = userRepositoryFactory.create(entityManager);
-
-      const { id, email, password } = userEntityTestFactory.create();
-
-      const user = await userRepository.createUser({
-        id,
-        email: email as string,
-        password,
-      });
-
-      await deleteUserCommandHandler.execute({ unitOfWork, userId: user.id });
-
-      const foundUser = await userRepository.findUser({ id: user.id });
-
-      expect(foundUser).toBeNull();
+    const user = await userRepository.createUser({
+      id,
+      email: email as string,
+      password,
     });
+
+    await deleteUserCommandHandler.execute({ userId: user.id });
+
+    const foundUser = await userRepository.findUser({ id: user.id });
+
+    expect(foundUser).toBeNull();
   });
 
   it('should throw if user with given id does not exist', async () => {
-    expect.assertions(1);
+    const { id } = userEntityTestFactory.create();
 
-    await testTransactionRunner.runInTestTransaction(async (unitOfWork) => {
-      const { id } = userEntityTestFactory.create();
+    try {
+      await deleteUserCommandHandler.execute({ userId: id });
+    } catch (error) {
+      expect(error).toBeInstanceOf(UserNotFoundError);
 
-      try {
-        await deleteUserCommandHandler.execute({ unitOfWork, userId: id });
-      } catch (error) {
-        expect(error).toBeInstanceOf(UserNotFoundError);
-      }
-    });
+      return;
+    }
+
+    expect.fail();
   });
 });

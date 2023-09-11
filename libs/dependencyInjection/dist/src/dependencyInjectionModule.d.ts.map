@@ -1,1 +1,0 @@
-{"version":3,"file":"dependencyInjectionModule.d.ts","sourceRoot":"","sources":["../../src/dependencyInjectionModule.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,4BAA4B,EAAE,MAAM,mCAAmC,CAAC;AAEjF,MAAM,WAAW,yBAAyB;IACxC,eAAe,CAAC,SAAS,EAAE,4BAA4B,GAAG,IAAI,CAAC;CAChE"}

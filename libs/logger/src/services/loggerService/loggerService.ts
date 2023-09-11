@@ -1,8 +1,8 @@
 import { LogContext } from '../../logContext.js';
 
 export interface LogPayload {
-  message: string;
-  context?: LogContext;
+  readonly message: string;
+  readonly context?: LogContext;
 }
 
 export interface LoggerService {

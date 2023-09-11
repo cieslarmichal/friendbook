@@ -2,7 +2,7 @@ import { DependencyInjectionContainer } from './dependencyInjectionContainer.js'
 import { DependencyInjectionModule } from './dependencyInjectionModule.js';
 
 export interface CreatePayload {
-  modules: DependencyInjectionModule[];
+  readonly modules: DependencyInjectionModule[];
 }
 
 export class DependencyInjectionContainerFactory {

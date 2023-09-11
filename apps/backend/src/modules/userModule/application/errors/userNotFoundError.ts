@@ -1,4 +1,4 @@
-import { ApplicationError } from '../../../../../common/errors/applicationError';
+import { ApplicationError } from '@common/validation';
 
 type UserNotFoundIdContext = {
   readonly id: string;
@@ -8,14 +8,8 @@ type UserNotFoundEmailContext = {
   readonly email: string;
 };
 
-type UserNotFoundPhoneNumberContext = {
-  readonly phoneNumber: string;
-};
-
-export class UserNotFoundError extends ApplicationError<
-  UserNotFoundIdContext | UserNotFoundEmailContext | UserNotFoundPhoneNumberContext
-> {
-  public constructor(context: UserNotFoundIdContext | UserNotFoundEmailContext | UserNotFoundPhoneNumberContext) {
+export class UserNotFoundError extends ApplicationError<UserNotFoundIdContext | UserNotFoundEmailContext> {
+  public constructor(context: UserNotFoundIdContext | UserNotFoundEmailContext) {
     super('UserNotFoundError', 'User not found.', context);
   }
 }

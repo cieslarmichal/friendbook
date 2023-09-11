@@ -1,4 +1,3 @@
-import { Session } from '@libs/neo4j';
 import {
   CreateUserPayload,
   DeleteUserPayload,
@@ -6,7 +5,6 @@ import {
   UpdateUserPayload,
   UserRepository,
 } from '../../../application/repositories/userRepository/userRepository.js';
-import { Validator } from '@common/validation';
 import { UserNotFoundError } from '../../../application/errors/userNotFoundError.js';
 import { User } from '../../../domain/entities/user/user.js';
 import { UserMapper } from './userMapper/userMapper.js';
@@ -14,14 +12,20 @@ import { UserRawEntity } from './userRawEntity/userRawEntity.js';
 
 export class UserRepositoryImpl implements UserRepository {
   public constructor(
-    private readonly session: Session,
+    // private readonly session: Session,
     private readonly userMapper: UserMapper,
   ) {}
 
   public async createUser(payload: CreateUserPayload): Promise<User> {
-    const { id, email, phoneNumber, password } = payload;
+    const { id, email, password } = payload;
 
-    return this.userMapper.map(savedUserEntity);
+    const user: UserRawEntity = {
+      id,
+      email,
+      password,
+    };
+
+    return this.userMapper.map(user);
   }
 
   public async findUser(payload: FindUserPayload): Promise<User | null> {
@@ -35,7 +39,7 @@ export class UserRepositoryImpl implements UserRepository {
       return null;
     }
 
-    return this.userMapper.map(userEntity);
+    return this.userMapper.map(userRawEntity);
   }
 
   public async updateUser(payload: UpdateUserPayload): Promise<User> {
@@ -48,6 +52,8 @@ export class UserRepositoryImpl implements UserRepository {
     if (!userRawEntity) {
       throw new UserNotFoundError({ id });
     }
+
+    // update
 
     const updatedUserEntity = await this.findUser({ id });
 

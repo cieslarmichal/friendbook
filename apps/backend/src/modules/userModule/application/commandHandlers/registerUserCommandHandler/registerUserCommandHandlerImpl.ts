@@ -1,61 +1,48 @@
+import { Injectable, Inject } from '@libs/dependency-injection';
+import { LoggerService, loggerSymbols } from '@libs/logger';
+import { UserAlreadyExistsError } from '../../errors/userAlreadyExistsError.js';
+import { UserRepository } from '../../repositories/userRepository/userRepository.js';
+import { HashService } from '../../services/hashService/hashService.js';
 import {
+  RegisterUserCommandHandler,
   RegisterUserCommandHandlerPayload,
-  registerUserCommandHandlerPayloadSchema,
-} from './payloads/registerUserCommandHandlerPayload';
-import {
   RegisterUserCommandHandlerResult,
-  registerUserCommandHandlerResultSchema,
-} from './payloads/registerUserCommandHandlerResult';
-import { RegisterUserCommandHandler } from './registerUserCommandHandler';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { loggerModuleSymbols } from '../../../../../../libs/logger/symbols';
-import { LoggerService } from '../../../../../../libs/logger/services/loggerService/loggerService';
-import { UuidGenerator } from '../../../../../../libs/uuid/uuidGenerator';
-import { Validator } from '../../../../../../libs/validator/validator';
-import { symbols } from '../../../symbols';
-import { UserAlreadyExistsError } from '../../errors/userAlreadyExistsError';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
-import { HashService } from '../../services/hashService/hashService';
+} from './registerUserCommandHandler.js';
+import { symbols } from '../../../symbols.js';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RegisterUserCommandHandlerImpl implements RegisterUserCommandHandler {
   public constructor(
-    @Inject(symbols.userRepositoryFactory)
-    private readonly userRepositoryFactory: UserRepositoryFactory,
+    @Inject(symbols.userRepository)
+    private readonly userRepository: UserRepository,
     @Inject(symbols.hashService)
     private readonly hashService: HashService,
-    @Inject(loggerModuleSymbols.loggerService)
+    @Inject(loggerSymbols.loggerService)
     private readonly loggerService: LoggerService,
   ) {}
 
-  public async execute(input: RegisterUserCommandHandlerPayload): Promise<RegisterUserCommandHandlerResult> {
-    const { unitOfWork, draft } = Validator.validate(registerUserCommandHandlerPayloadSchema, input);
+  public async execute(payload: RegisterUserCommandHandlerPayload): Promise<RegisterUserCommandHandlerResult> {
+    const { email, password } = payload;
 
-    const findUserBy = 'email' in draft ? { email: draft.email } : { phoneNumber: draft.phoneNumber };
+    this.loggerService.debug({ message: 'Registering user...', context: { email } });
 
-    this.loggerService.debug({ message: 'Registering user...', context: { findUserBy } });
-
-    const entityManager = unitOfWork.getEntityManager();
-
-    const userRepository = this.userRepositoryFactory.create(entityManager);
-
-    const existingUser = await userRepository.findUser(findUserBy);
+    const existingUser = await this.userRepository.findUser({ email });
 
     if (existingUser) {
-      throw new UserAlreadyExistsError(findUserBy);
+      throw new UserAlreadyExistsError({ email });
     }
 
-    const hashedPassword = await this.hashService.hash(draft.password);
+    const hashedPassword = await this.hashService.hash(password);
 
-    const user = await userRepository.createUser({
-      id: UuidGenerator.generateUuid(),
-      email: 'email' in draft ? draft.email : undefined,
-      phoneNumber: 'phoneNumber' in draft ? draft.phoneNumber : undefined,
+    const user = await this.userRepository.createUser({
+      id: uuidv4(),
+      email,
       password: hashedPassword,
     });
 
-    this.loggerService.info({ message: 'User registered.', context: { ...findUserBy, userId: user.id } });
+    this.loggerService.info({ message: 'User registered.', context: { email, userId: user.id } });
 
-    return Validator.validate(registerUserCommandHandlerResultSchema, { user });
+    return { user };
   }
 }

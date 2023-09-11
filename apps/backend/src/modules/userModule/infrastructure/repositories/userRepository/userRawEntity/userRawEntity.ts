@@ -1,5 +1,5 @@
 export interface UserRawEntity {
-  id: string;
-  email: string;
-  password: string;
+  readonly id: string;
+  readonly email: string;
+  readonly password: string;
 }

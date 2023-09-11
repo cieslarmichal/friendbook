@@ -1,24 +1,24 @@
 import { User } from '../../../domain/entities/user/user.js';
 
 export interface CreateUserPayload {
-  id: string;
-  email: string;
-  password: string;
+  readonly id: string;
+  readonly email: string;
+  readonly password: string;
 }
 
 export interface FindUserPayload {
-  id?: string;
-  email?: string;
+  readonly id?: string;
+  readonly email?: string;
 }
 
 export interface UpdateUserPayload {
-  id: string;
-  password: string;
+  readonly id: string;
+  readonly password: string;
 }
 
 export interface DeleteUserPayload {
-  id: string;
-  password?: string;
+  readonly id: string;
+  readonly password?: string;
 }
 
 export interface UserRepository {

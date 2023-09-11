@@ -1,17 +1,11 @@
-import { ApplicationError } from '../../../../../common/errors/applicationError';
+import { ApplicationError } from '@common/validation';
 
-type UserAlreadyExistsEmailContext = {
+type Context = {
   readonly email: string;
 };
 
-type UserAlreadyExistsPhoneNumberContext = {
-  readonly phoneNumber: string;
-};
-
-export class UserAlreadyExistsError extends ApplicationError<
-  UserAlreadyExistsEmailContext | UserAlreadyExistsPhoneNumberContext
-> {
-  public constructor(context: UserAlreadyExistsEmailContext | UserAlreadyExistsPhoneNumberContext) {
+export class UserAlreadyExistsError extends ApplicationError<Context> {
+  public constructor(context: Context) {
     super('UserAlreadyExistsError', 'User already exists.', context);
   }
 }

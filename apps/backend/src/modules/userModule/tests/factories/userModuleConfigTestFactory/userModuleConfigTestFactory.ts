@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
-
-import { UserModuleConfig } from '../../../userModuleConfig';
+import { UserModuleConfig } from '../../../userModuleConfig.js';
 
 export class UserModuleConfigTestFactory {
   public create(input: Partial<UserModuleConfig> = {}): UserModuleConfig {

@@ -1,28 +1,22 @@
-import { LoginUserCommandHandler } from './loginUserCommandHandler';
+import { Injectable, Inject } from '@libs/dependency-injection';
+import { LoggerService, loggerSymbols } from '@libs/logger';
+import { UserNotFoundError } from '../../errors/userNotFoundError.js';
+import { HashService } from '../../services/hashService/hashService.js';
+import { TokenService } from '../../services/tokenService/tokenService.js';
 import {
+  LoginUserCommandHandler,
   LoginUserCommandHandlerPayload,
-  loginUserCommandHandlerPayloadSchema,
-} from './payloads/loginUserCommandHandlerPayload';
-import {
   LoginUserCommandHandlerResult,
-  loginUserCommandHandlerResultSchema,
-} from './payloads/loginUserCommandHandlerResult';
-import { Injectable, Inject } from '../../../../../../libs/dependencyInjection/decorators';
-import { loggerModuleSymbols } from '../../../../../../libs/logger/symbols';
-import { LoggerService } from '../../../../../../libs/logger/services/loggerService/loggerService';
-import { Validator } from '../../../../../../libs/validator/validator';
-import { symbols } from '../../../symbols';
-import { UserNotFoundError } from '../../errors/userNotFoundError';
-import { UserRepositoryFactory } from '../../repositories/userRepository/userRepositoryFactory';
-import { HashService } from '../../services/hashService/hashService';
-import { TokenService } from '../../services/tokenService/tokenService';
+} from './loginUserCommandHandler.js';
+import { symbols } from '../../../symbols.js';
+import { UserRepository } from '../../repositories/userRepository/userRepository.js';
 
 @Injectable()
 export class LoginUserCommandHandlerImpl implements LoginUserCommandHandler {
   public constructor(
-    @Inject(symbols.userRepositoryFactory)
-    private readonly userRepositoryFactory: UserRepositoryFactory,
-    @Inject(loggerModuleSymbols.loggerService)
+    @Inject(symbols.userRepository)
+    private readonly userRepository: UserRepository,
+    @Inject(loggerSymbols.loggerService)
     private readonly loggerService: LoggerService,
     @Inject(symbols.hashService)
     private readonly hashService: HashService,
@@ -30,33 +24,27 @@ export class LoginUserCommandHandlerImpl implements LoginUserCommandHandler {
     private readonly tokenService: TokenService,
   ) {}
 
-  public async execute(input: LoginUserCommandHandlerPayload): Promise<LoginUserCommandHandlerResult> {
-    const { unitOfWork, draft } = Validator.validate(loginUserCommandHandlerPayloadSchema, input);
+  public async execute(payload: LoginUserCommandHandlerPayload): Promise<LoginUserCommandHandlerResult> {
+    const { email, password } = payload;
 
-    const findUserBy = 'email' in draft ? { email: draft.email } : { phoneNumber: draft.phoneNumber };
+    this.loggerService.debug({ message: 'Logging user in...', context: { email } });
 
-    this.loggerService.debug({ message: 'Logging user in...', context: { findUserBy } });
-
-    const entityManager = unitOfWork.getEntityManager();
-
-    const userRepository = this.userRepositoryFactory.create(entityManager);
-
-    const user = await userRepository.findUser(findUserBy);
+    const user = await this.userRepository.findUser({ email });
 
     if (!user) {
-      throw new UserNotFoundError(findUserBy);
+      throw new UserNotFoundError({ email });
     }
 
-    const passwordIsValid = await this.hashService.compare(draft.password, user.password);
+    const passwordIsValid = await this.hashService.compare(password, user.password);
 
     if (!passwordIsValid) {
-      throw new UserNotFoundError(findUserBy);
+      throw new UserNotFoundError({ email });
     }
 
     const accessToken = this.tokenService.createToken({ id: user.id });
 
-    this.loggerService.info({ message: 'User logged in.', context: { findUserBy, userId: user.id, accessToken } });
+    this.loggerService.info({ message: 'User logged in.', context: { email, userId: user.id, accessToken } });
 
-    return Validator.validate(loginUserCommandHandlerResultSchema, { accessToken });
+    return { accessToken };
   }
 }

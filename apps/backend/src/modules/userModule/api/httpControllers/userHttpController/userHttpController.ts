@@ -10,9 +10,11 @@ import {
   HttpOkResponse,
   HttpNotFoundResponse,
   HttpNoContentResponse,
+  AuthorizationType,
+  HttpUnprocessableEntityResponse,
+  HttpForbiddenResponse,
 } from '@common/types';
 import { Injectable, Inject } from '@libs/dependency-injection';
-import { symbols } from '@libs/logger';
 import { DeleteUserCommandHandler } from '../../../application/commandHandlers/deleteUserCommandHandler/deleteUserCommandHandler.js';
 import { LoginUserCommandHandler } from '../../../application/commandHandlers/loginUserCommandHandler/loginUserCommandHandler.js';
 import { RegisterUserCommandHandler } from '../../../application/commandHandlers/registerUserCommandHandler/registerUserCommandHandler.js';
@@ -44,6 +46,7 @@ import {
   RegisterUserBody,
   RegisterUserResponseCreatedBody,
 } from './schemas/registerUserSchema.js';
+import { symbols } from '../../../symbols.js';
 
 @Injectable()
 export class UserHttpController implements HttpController {
@@ -144,23 +147,10 @@ export class UserHttpController implements HttpController {
   ): Promise<
     HttpCreatedResponse<RegisterUserResponseCreatedBody> | HttpUnprocessableEntityResponse<ResponseErrorBody>
   > {
-    const unitOfWork = await this.unitOfWorkFactory.create();
-
     try {
-      const { user } = await unitOfWork.runInTransaction(async () => {
-        if ('email' in request.body) {
-          const { email, password } = request.body;
+      const { email, password } = request.body;
 
-          return this.registerUserCommandHandler.execute({ unitOfWork, draft: { email, password } });
-        } else {
-          const { phoneNumber, password } = request.body;
-
-          return this.registerUserCommandHandler.execute({
-            unitOfWork,
-            draft: { phoneNumber, password },
-          });
-        }
-      });
+      const { user } = await this.registerUserCommandHandler.execute({ email, password });
 
       return { statusCode: HttpStatusCode.created, body: { user } };
     } catch (error) {
@@ -175,20 +165,10 @@ export class UserHttpController implements HttpController {
   private async loginUser(
     request: HttpRequest<LoginUserBody>,
   ): Promise<HttpOkResponse<LoginUserResponseOkBody> | HttpNotFoundResponse<ResponseErrorBody>> {
-    const unitOfWork = await this.unitOfWorkFactory.create();
-
     try {
-      const { accessToken } = await unitOfWork.runInTransaction(async () => {
-        if ('email' in request.body) {
-          const { email, password } = request.body;
+      const { email, password } = request.body;
 
-          return this.loginUserCommandHandler.execute({ unitOfWork, draft: { email, password } });
-        } else {
-          const { phoneNumber, password } = request.body;
-
-          return this.loginUserCommandHandler.execute({ unitOfWork, draft: { phoneNumber, password } });
-        }
-      });
+      const { accessToken } = await this.loginUserCommandHandler.execute({ email, password });
 
       return { statusCode: HttpStatusCode.ok, body: { token: accessToken } };
     } catch (error) {
@@ -215,12 +195,8 @@ export class UserHttpController implements HttpController {
       return { statusCode: HttpStatusCode.forbidden, body: { error: { name: '', message: '' } } };
     }
 
-    const unitOfWork = await this.unitOfWorkFactory.create();
-
     try {
-      const { user } = await unitOfWork.runInTransaction(async () => {
-        return this.findUserQueryHandler.execute({ unitOfWork, userId: id as string });
-      });
+      const { user } = await this.findUserQueryHandler.execute({ userId: id });
 
       return { statusCode: HttpStatusCode.ok, body: { user: user as User } };
     } catch (error) {
@@ -247,12 +223,8 @@ export class UserHttpController implements HttpController {
       return { statusCode: HttpStatusCode.forbidden, body: { error: { name: '', message: '' } } };
     }
 
-    const unitOfWork = await this.unitOfWorkFactory.create();
-
     try {
-      await unitOfWork.runInTransaction(async () => {
-        await this.deleteUserCommandHandler.execute({ unitOfWork, userId: id as string });
-      });
+      await this.deleteUserCommandHandler.execute({ userId: id });
     } catch (error) {
       if (error instanceof UserNotFoundError) {
         return { statusCode: HttpStatusCode.notFound, body: { error } };

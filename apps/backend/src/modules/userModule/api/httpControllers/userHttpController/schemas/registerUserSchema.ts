@@ -1,16 +1,10 @@
 import { Schema, SchemaType } from '@common/validation';
 import { userSchema } from './userSchema.js';
 
-export const registerUserBodySchema = Schema.union([
-  Schema.object({
-    email: Schema.string(),
-    password: Schema.string(),
-  }),
-  Schema.object({
-    phoneNumber: Schema.string(),
-    password: Schema.string(),
-  }),
-]);
+export const registerUserBodySchema = Schema.object({
+  email: Schema.string(),
+  password: Schema.string(),
+});
 
 export type RegisterUserBody = SchemaType<typeof registerUserBodySchema>;
 
